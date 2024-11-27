@@ -32,13 +32,10 @@ bool checkMovePiece(char board[8][8], std::string from, std::string to) {
         return false;
     }
 
-    std::cout << "Piece at start: " << board[fromRow][fromCol] << std::endl;
-
     // Determine the piece type and check if the move is valid for that piece
     switch (board[fromRow][fromCol]) {
         case 'p':  // Pawn
         case 'P':
-            std::cout << "Pawn move check: " << isPosibleMoveForPawn(board, fromRow, fromCol, toRow, toCol) << std::endl;
             if (isPosibleMoveForPawn(board, fromRow, fromCol, toRow, toCol)) {
                 movePiece(board, fromRow, fromCol, toRow, toCol);
                 return true;

@@ -31,4 +31,11 @@ bool isPosibleMoveForQueen(char board[8][8], int fromRow, int fromCol, int toRow
 // Function to determine if a king can make a valid move from its current position
 bool isPosibleMoveForKing(char board[8][8], int fromRow, int fromCol, int toRow, int toCol);
 
+// Function to determine if a knight can make a valid move from its current position
+bool isPosibleMoveForKnight(char board[8][8], int fromRow, int fromCol, int toRow, int toCol);
+
+bool IsCheck(char board[8][8]);
+
+bool IsCheckMate(char board[8][8]);
+
 #endif
