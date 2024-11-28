@@ -2,7 +2,7 @@
 #define LOGIC_H
 
 #include <vector>
-#include "globals.h"
+#include "game_state.h"
 
 // Function to switch turns between Black and White
 void changeMove();

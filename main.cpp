@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
-#include "display_functions.h" // For displaying the chess board
-#include "logic.h"             // For game logic
-#include "globals.h"           // For global variables
-#include "move.h"              // For move-related functions
+#include "board_display.h" // For displaying the chess board
+#include "game_logic.h"             // For game logic
+#include "game_state.h"           // For global variables
+#include "move_validation.h"              // For move-related functions
 
 // Main function to initialize and run the chess game
 int main() {

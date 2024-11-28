@@ -1,7 +1,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
-#include "globals.h"
+#include "game_state.h"
 
 // Function to check if it's White's turn
 // Returns true if it is White's turn to play, false otherwise.

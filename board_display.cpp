@@ -1,6 +1,5 @@
 #include <iostream>
-#include "globals.h"
-#include "display_functions.h"
+#include "game_state.h"
 
 // Function to initialize the chessboard with default piece positions
 void initializeBoard(char board[BOARD_SIZE][BOARD_SIZE]) {

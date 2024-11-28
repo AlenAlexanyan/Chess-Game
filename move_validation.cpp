@@ -1,7 +1,6 @@
-#include "move.h"
-#include "display_functions.h"
-#include "logic.h"
-#include "globals.h"
+#include "board_display.h"
+#include "game_logic.h"
+#include "game_state.h"
 #include <iostream>
 #include <string>
 

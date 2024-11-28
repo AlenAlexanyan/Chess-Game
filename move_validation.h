@@ -1,7 +1,7 @@
 #ifndef MOVE_H
 #define MOVE_H
 
-#include "globals.h"
+#include "game_state.h"
 #include <string>
 
 // Function to move a piece on the chessboard.

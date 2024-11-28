@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "game_state.h"
 #include <utility>
 
 // Board size remains constant for a standard chessboard

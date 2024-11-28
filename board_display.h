@@ -1,7 +1,7 @@
 #ifndef DISPLAY_FUNCTIONS_H
 #define DISPLAY_FUNCTIONS_H
 
-#include "globals.h"
+#include "game_state.h"
 
 // Function to initialize the chessboard with starting positions
 void initializeBoard(char board[BOARD_SIZE][BOARD_SIZE]);
