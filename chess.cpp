@@ -23,6 +23,17 @@ int main() {
         if (!checkMovePiece(board, from, to)) {
             std::cout << "Invalid move! Try again.\n"; // Prompt for re-entry on invalid moves
         }
+
+        if (isCheck(board) && isCheckMate(board)) {
+            std::string mated = !whiteCheck ? "White" : "Black";
+            std::cout << mated <<"`s  win." ;
+            return 0;
+        }
+        else {
+            // Switch turn (black or white)
+            changeMove();
+        }
+
     }
 
     return 0; // Exit the program

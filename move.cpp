@@ -9,9 +9,6 @@ void movePiece(char board[8][8], int fromRow, int fromCol, int toRow, int toCol)
     // Move the piece to the new position
     board[toRow][toCol] = board[fromRow][fromCol];
     board[fromRow][fromCol] = ' ';  // Clear the original position
-
-    // Switch turn (black or white)
-    black_or_white = !black_or_white;
 }
 
 // Function to check if a move is valid and execute it
@@ -37,6 +34,7 @@ bool checkMovePiece(char board[8][8], std::string from, std::string to) {
         case 'p':  // Pawn
         case 'P':
             if (isPosibleMoveForPawn(board, fromRow, fromCol, toRow, toCol)) {
+                std::cout << " Its posible move for pawn" << std::endl;
                 movePiece(board, fromRow, fromCol, toRow, toCol);
                 return true;
             }

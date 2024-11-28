@@ -1,5 +1,5 @@
 #include "globals.h"
-#include <vector>
+#include <utility>
 
 // Tracks the current player's turn: false for Black's move, true for White's move
 bool black_or_white = true;

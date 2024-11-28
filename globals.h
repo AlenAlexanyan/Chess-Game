@@ -1,6 +1,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include <utility> 
+
 // Global variable to track the current turn: false for Black, true for White
 extern bool black_or_white;
 
