@@ -21,12 +21,13 @@ int main() {
 
         // Validate and execute the move
         if (!checkMovePiece(board, from, to)) {
-            std::cout << "Invalid move! Try again.\n"; // Prompt for re-entry on invalid moves
+            std::cout << "Invalid move! (" << from << " -> " << to << ") " << "Try again.\n";
+            continue; // Prompt for re-entry on invalid moves
         }
 
         if (isCheck(board) && isCheckMate(board)) {
-            std::string mated = !whiteCheck ? "White" : "Black";
-            std::cout << mated <<"`s  win." ;
+            std::string mated = !IS_WHITE_IN_CHECK ? "White" : "Black";
+            std::cout << " and CHECKMATE!!!!!" << std::endl << mated <<"`s  win." ;
             return 0;
         }
         else {

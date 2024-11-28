@@ -1,81 +1,70 @@
-#include <iostream>
-#include <string>
+#include "move.h"
 #include "display_functions.h"
 #include "logic.h"
 #include "globals.h"
+#include <iostream>
+#include <string>
 
-// Function to move a piece on the board
-void movePiece(char board[8][8], int fromRow, int fromCol, int toRow, int toCol) {
-    // Move the piece to the new position
+// Moves a piece on the chessboard by updating its position in the array.
+void movePiece(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int toRow, int toCol) {
+    // Copy the piece to the target position.
     board[toRow][toCol] = board[fromRow][fromCol];
-    board[fromRow][fromCol] = ' ';  // Clear the original position
+    // Clear the original position.
+    board[fromRow][fromCol] = ' ';  
 }
 
-// Function to check if a move is valid and execute it
-bool checkMovePiece(char board[8][8], std::string from, std::string to) {
-    // Convert board coordinates from chess notation (e.g., "a2") to array indices
-    int fromRow = 8 - (from[1] - '0'); 
-    int fromCol = from[0] - 'a';       
-
-    int toRow = 8 - (to[1] - '0');
+// Validates a move based on chess rules and executes it if valid.
+bool checkMovePiece(char board[BOARD_SIZE][BOARD_SIZE], std::string from, std::string to) {
+    // Convert chess notation (e.g., "e2") to array indices.
+    int fromRow = BOARD_SIZE - (from[1] - '0');  // Convert rank (row).
+    int fromCol = from[0] - 'a';        // Convert file (column).
+    int toRow = BOARD_SIZE - (to[1] - '0');
     int toCol = to[0] - 'a';
 
-    // Debugging: print the indices
-    std::cout << fromRow << ' ' << fromCol << ' ' << toRow << ' ' << toCol << std::endl;
+    // Debug: Print the computed indices.
+    std::cout << "From: (" << fromRow << ", " << fromCol << ") "
+              << "To: (" << toRow << ", " << toCol << ")\n";
 
-    // Validate the move (check if it is within bounds and allowed for the piece)
+    // Ensure the move is within the chessboard's bounds.
     if (!isValidMove(board, fromRow, fromCol, toRow, toCol)) {
-        std::cout << "Invalid move! Out of bounds.\n";
+        std::cout << "Invalid move! The position is out of bounds.\n";
         return false;
     }
 
-    // Determine the piece type and check if the move is valid for that piece
-    switch (board[fromRow][fromCol]) {
-        case 'p':  // Pawn
-        case 'P':
-            if (isPosibleMoveForPawn(board, fromRow, fromCol, toRow, toCol)) {
-                std::cout << " Its posible move for pawn" << std::endl;
-                movePiece(board, fromRow, fromCol, toRow, toCol);
-                return true;
-            }
+    // Validate the move based on the piece type.
+    char piece = board[fromRow][fromCol];
+    bool validMove = false;
+
+    switch (piece) {
+        case 'p': case 'P':  // Pawn
+            validMove = isPossibleMoveForPawn(board, fromRow, fromCol, toRow, toCol);
             break;
-        case 'r':  // Rook
-        case 'R':
-            if (isPosibleMoveForRook(board, fromRow, fromCol, toRow, toCol)) {
-                movePiece(board, fromRow, fromCol, toRow, toCol);
-                return true;
-            }
+        case 'r': case 'R':  // Rook
+            validMove = isPossibleMoveForRook(board, fromRow, fromCol, toRow, toCol);
             break;
-        case 'n':  // Knight
-        case 'N':
-            // Add knight move logic here
+        case 'n': case 'N':  // Knight
+            validMove = isPossibleMoveForKnight(board, fromRow, fromCol, toRow, toCol);
             break;
-        case 'b':  // Bishop
-        case 'B':
-            if (isPosibleMoveForBishop(board, fromRow, fromCol, toRow, toCol)) {
-                movePiece(board, fromRow, fromCol, toRow, toCol);
-                return true;
-            }
+        case 'b': case 'B':  // Bishop
+            validMove = isPossibleMoveForBishop(board, fromRow, fromCol, toRow, toCol);
             break;
-        case 'q':  // Queen
-        case 'Q':
-            if (isPosibleMoveForQueen(board, fromRow, fromCol, toRow, toCol)) {
-                movePiece(board, fromRow, fromCol, toRow, toCol);
-                return true;
-            }
+        case 'q': case 'Q':  // Queen
+            validMove = isPossibleMoveForQueen(board, fromRow, fromCol, toRow, toCol);
             break;
-        case 'k':  // King
-        case 'K':
-            if (isPosibleMoveForKing(board, fromRow, fromCol, toRow, toCol)) {
-                movePiece(board, fromRow, fromCol, toRow, toCol);
-                return true;
-            }
+        case 'k': case 'K':  // King
+            validMove = isPossibleMoveForKing(board, fromRow, fromCol, toRow, toCol);
             break;
         default:
-            std::cout << "No valid figure at this position. Try again.\n";
+            std::cout << "No valid piece at this position. Try again.\n";
             return false;
     }
 
-    // If no valid move was found
+    // If the move is valid, execute it.
+    if (validMove) {
+        movePiece(board, fromRow, fromCol, toRow, toCol);
+        return true;
+    }
+
+    std::cout << "Invalid move for the selected piece.\n";
     return false;
 }
