@@ -37,3 +37,7 @@ To compile and run the Chess game, follow these steps:
 - Displays the board after each move in a text-based format.
 - Detects check and checkmate situations.
 - Basic game loop for two players.
+
+# License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
