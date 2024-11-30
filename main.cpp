@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
-#include "board_display.h" // For displaying the chess board
+#include "board_display.h"          // For displaying the chess board
 #include "game_logic.h"             // For game logic
-#include "game_state.h"           // For global variables
-#include "move_validation.h"              // For move-related functions
+#include "game_state.h"             // For global variables
+#include "move_validation.h"        // For move-related functions
 
 // Main function to initialize and run the chess game
 int main() {
@@ -30,6 +30,12 @@ int main() {
             std::cout << " and CHECKMATE!!!!!" << std::endl << mated <<"`s  win." ;
             return 0;
         }
+        //TODO Check isDraw()
+        else if (isDraw(board)){
+            std::cout << "It`s draw!" << std::endl;
+            return 0;
+        }
+        
         else {
             // Switch turn (black or white)
             changeMove();

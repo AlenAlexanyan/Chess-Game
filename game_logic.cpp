@@ -103,7 +103,7 @@ void changeMove()
 // - toCol: Column index of the target position (0-7)
 // Returns true if the move is valid for a pawn, false otherwise.
 bool isPossibleMoveForPawn(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int toRow, int toCol)
-{
+{  
     // White pawn movement logic
     if (isWhitesMove())
     {
@@ -152,6 +152,34 @@ bool isPossibleMoveForPawn(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int 
 
         return false; // Move is invalid for Black pawn
     }
+}
+
+// Function to check if a knight can make a valid move
+// Parameters:
+// - board: 2D array representing the chessboard
+// - fromRow: Row index of the knight's current position (0-7)
+// - fromCol: Column index of the knight's current position (0-7)
+// - toRow: Row index of the target position (0-7)
+// - toCol: Column index of the target position (0-7)
+// Returns true if the move is valid for a knight, false otherwise.
+bool isPossibleMoveForKnight(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int toRow, int toCol)
+{    
+    // First, validate that the move is within the rules of chess
+    if (!isValidMove(board, fromRow, fromCol, toRow, toCol))
+    {
+        return false; // Invalid move based on general movement rules
+    }
+
+    // A knight moves in an L-shape: two squares in one direction and one square perpendicular
+    if (abs(toRow - fromRow) > 0 && abs(toCol - fromCol) > 0)
+    {
+        if (abs(toRow - fromRow) + abs(toCol - fromCol) == 3)
+        {
+            return true; // Valid knight move
+        }
+    }
+
+    return false; // Move is invalid for knight
 }
 
 // Function to check if a bishop can make a valid move
@@ -349,34 +377,6 @@ bool isPossibleMoveForKing(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int 
     return false; // Move is invalid for king
 }
 
-// Function to check if a knight can make a valid move
-// Parameters:
-// - board: 2D array representing the chessboard
-// - fromRow: Row index of the knight's current position (0-7)
-// - fromCol: Column index of the knight's current position (0-7)
-// - toRow: Row index of the target position (0-7)
-// - toCol: Column index of the target position (0-7)
-// Returns true if the move is valid for a knight, false otherwise.
-bool isPossibleMoveForKnight(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int toRow, int toCol)
-{
-    // First, validate that the move is within the rules of chess
-    if (!isValidMove(board, fromRow, fromCol, toRow, toCol))
-    {
-        return false; // Invalid move based on general movement rules
-    }
-
-    // A knight moves in an L-shape: two squares in one direction and one square perpendicular
-    if (abs(toRow - fromRow) > 0 && abs(toCol - fromCol) > 0)
-    {
-        if (abs(toRow - fromRow) + abs(toCol - fromCol) == 3)
-        {
-            return true; // Valid knight move
-        }
-    }
-
-    return false; // Move is invalid for knight
-}
-
 // Function to check if a piece can make a valid move based on its type
 // Parameters:
 // - board: 2D array representing the chessboard
@@ -540,7 +540,8 @@ bool isCheck(char board[BOARD_SIZE][BOARD_SIZE])
             // If a piece can attack the king
             if (isCheck) {
                 CHECKING_PIECE_POSITION = {i, j}; // Store the position of the attacking piece
-                IS_WHITE_IN_CHECK = (targetKing == WHITE_KING_POSITION); // Update check status based on which king is targeted
+                IS_WHITE_IN_CHECK = (targetKing == WHITE_KING_POSITION);
+                IS_BLACK_IN_CHECK = (targetKing == BLACK_KING_POSITION); // Update check status based on which king is targeted
 
                 std::cout << "It is a check";
                 changeMove(); // Change turn after detecting a check
@@ -607,4 +608,91 @@ bool isCheckMate(char board[BOARD_SIZE][BOARD_SIZE])
     }
 
     return true; // No valid moves to escape or block; it's checkmate
+}
+
+void printPieces(const std::map<std::string, std::pair<int, int>>& pieces, const std::string& player) {
+    std::cout << "Pieces for " << player << ":\n";
+    for (const auto& piece : pieces) {
+        std::cout << piece.first << " at (" 
+                  << piece.second.first << ", " 
+                  << piece.second.second << ")\n";
+    }
+    std::cout << std::endl;
+}
+
+
+//TODO Does not work properly
+bool isStaleMate(char board[BOARD_SIZE][BOARD_SIZE]) {
+    // Iterate through all pieces of the current player
+    auto& playerPieces = !isWhitesMove ? ALL_WHITE_PIECES : ALL_BLACK_PIECES;
+
+    printPieces(playerPieces, "white");
+
+    for (const auto& piece : playerPieces) {
+        int currentRow = piece.second.first;
+        int currentCol = piece.second.second;
+
+        // Iterate over all possible moves for the piece
+        for (int row = 0; row < BOARD_SIZE; ++row) {
+            for (int col = 0; col < BOARD_SIZE; ++col) {
+                if (isPossibleMove(board, currentRow, currentCol, row, col)) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    // If no legal moves exist, check if the king is in check
+    return true;
+}
+
+// Function to check if the game is a draw
+bool isDraw(char board[BOARD_SIZE][BOARD_SIZE]) {
+    // A draw is declared if there is exactly 1 white piece and 1 black piece left on the board.
+    // This is an oversimplified condition for a draw, as in actual chess, the draw condition involves 
+     // other complex scenarios like stalemate, insufficient material, or a draw by repetition?????.
+    bool size = (ALL_WHITE_PIECES.size() == 1 && ALL_BLACK_PIECES.size() == 1);
+    bool stalemate = isStaleMate(board);
+
+    std::cout << "size: " << size << std::endl;
+    std::cout << "StaleMae: " << stalemate << std::endl;
+
+    return (ALL_WHITE_PIECES.size() == 1 && ALL_BLACK_PIECES.size() == 1) || isStaleMate(board);
+}
+
+// Function to create a copy of the chessboard.
+// Parameters:
+// - original: 2D array representing the original chessboard.
+// - copy: 2D array where the copied board will be stored.
+// Copies the content of the original chessboard into the provided copy array.
+void copyBoard(const char original[BOARD_SIZE][BOARD_SIZE], char copy[BOARD_SIZE][BOARD_SIZE]) {
+    // Iterate through each cell in the board.
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            // Copy the content of each cell from the original board to the copy.
+            copy[i][j] = original[i][j];
+        }
+    }
+}
+
+// Function to check if a move keeps the king safe from being in check.
+// Parameters:
+// - board: 2D array representing the chessboard.
+// - fromRow: Row index of the piece to move (0-based).
+// - fromCol: Column index of the piece to move (0-based).
+// - toRow: Row index of the target position (0-based).
+// - toCol: Column index of the target position (0-based).
+// Returns true if the move keeps the king safe, false otherwise.
+bool doesMoveKeepKingSafe(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int toRow, int toCol) {
+
+    // Create a copy of the board to simulate the move.
+    char copy[BOARD_SIZE][BOARD_SIZE];
+    copyBoard(board, copy);
+
+    // Simulate the move by updating the copied board.
+    copy[toRow][toCol] = copy[fromRow][fromCol];
+    copy[fromRow][fromCol] = ' ';
+
+    // Check if the king is in check on the simulated board.
+    return !isCheck(copy);
 }

@@ -51,5 +51,9 @@ bool isCheck(char board[BOARD_SIZE][BOARD_SIZE]);
 
 // Function that checks whether any player’s king has no legal moves left.
 bool isCheckMate(char board[BOARD_SIZE][BOARD_SIZE]);
+void copyBoard(const char original[BOARD_SIZE][BOARD_SIZE], char copy[BOARD_SIZE][BOARD_SIZE]);
+bool doesMoveKeepKingSafe(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int toRow, int toCol);
+bool isStaleMate(char board[BOARD_SIZE][BOARD_SIZE]);
+bool isDraw(char board[BOARD_SIZE][BOARD_SIZE]);
 
 #endif // LOGIC_H
