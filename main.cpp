@@ -27,7 +27,8 @@ int main() {
 
         if (isCheck(board) && isCheckMate(board)) {
             std::string mated = !IS_WHITE_IN_CHECK ? "White" : "Black";
-            std::cout << " and CHECKMATE!!!!!" << std::endl << mated <<"`s  win." ;
+            displayBoard(board);
+            std::cout << std::endl << "CHECKMATE!!!!!" << std::endl << mated <<"`s  win." ;
             return 0;
         }
         //TODO Check isDraw()

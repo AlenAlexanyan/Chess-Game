@@ -121,7 +121,7 @@ bool isPossibleMoveForPawn(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int 
         }
 
         // Pawn capture (diagonal move to capture an enemy piece)
-        if (abs(fromCol - toCol) == 1 && toRow - fromRow == -1 && isBlackFigure(board, toRow, toCol))
+        if (abs(fromCol - toCol) == 1 && abs(toRow - fromRow) == 1 && isBlackFigure(board, toRow, toCol))
         {
             return true; // Valid capture move
         }
@@ -145,7 +145,7 @@ bool isPossibleMoveForPawn(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int 
         }
 
         // Pawn capture (diagonal move to capture an enemy piece)
-        if (abs(fromCol - toCol) == 1 && fromRow - toRow == 1 && isWhiteFigure(board, toRow, toCol))
+        if (abs(fromCol - toCol) == 1 && abs(fromRow - toRow) == 1 && isWhiteFigure(board, toRow, toCol))
         {
             return true; // Valid capture move
         }
@@ -543,7 +543,7 @@ bool isCheck(char board[BOARD_SIZE][BOARD_SIZE])
                 IS_WHITE_IN_CHECK = (targetKing == WHITE_KING_POSITION);
                 IS_BLACK_IN_CHECK = (targetKing == BLACK_KING_POSITION); // Update check status based on which king is targeted
 
-                std::cout << "It is a check";
+                std::cout << "It is a check" << std::endl;
                 changeMove(); // Change turn after detecting a check
                 return true; // Return true indicating that the king is in check
             }
@@ -620,13 +620,15 @@ void printPieces(const std::map<std::string, std::pair<int, int>>& pieces, const
     std::cout << std::endl;
 }
 
-
 //TODO Does not work properly
 bool isStaleMate(char board[BOARD_SIZE][BOARD_SIZE]) {
     // Iterate through all pieces of the current player
-    auto& playerPieces = !isWhitesMove ? ALL_WHITE_PIECES : ALL_BLACK_PIECES;
+    auto& playerPieces = isWhitesMove() ? ALL_WHITE_PIECES : ALL_BLACK_PIECES;
+    std::string player = isWhitesMove() ? "White" : "Black";
 
-    printPieces(playerPieces, "white");
+    std::cout << "Move: " << isWhitesMove << std::endl;
+
+    printPieces(playerPieces, player);
 
     for (const auto& piece : playerPieces) {
         int currentRow = piece.second.first;
@@ -636,6 +638,7 @@ bool isStaleMate(char board[BOARD_SIZE][BOARD_SIZE]) {
         for (int row = 0; row < BOARD_SIZE; ++row) {
             for (int col = 0; col < BOARD_SIZE; ++col) {
                 if (isPossibleMove(board, currentRow, currentCol, row, col)) {
+                    std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
                     return false;
                 }
             }
@@ -652,12 +655,12 @@ bool isDraw(char board[BOARD_SIZE][BOARD_SIZE]) {
     // This is an oversimplified condition for a draw, as in actual chess, the draw condition involves 
      // other complex scenarios like stalemate, insufficient material, or a draw by repetition?????.
     bool size = (ALL_WHITE_PIECES.size() == 1 && ALL_BLACK_PIECES.size() == 1);
-    bool stalemate = isStaleMate(board);
+    bool staleMate = isStaleMate(board);
 
     std::cout << "size: " << size << std::endl;
-    std::cout << "StaleMae: " << stalemate << std::endl;
+    std::cout << "StaleMate: " << staleMate << std::endl;
 
-    return (ALL_WHITE_PIECES.size() == 1 && ALL_BLACK_PIECES.size() == 1) || isStaleMate(board);
+    return size || staleMate;
 }
 
 // Function to create a copy of the chessboard.

@@ -14,8 +14,8 @@ void movePiece(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int
     bool isWhitePiece = (currentPosition >= 'A' && currentPosition <= 'Z');
     bool isBlackPiece = (currentPosition >= 'a' && currentPosition <= 'z');
 
-    // Convert the position to a string representation
-    std::string currentKey = std::string(1, currentPosition) + std::to_string(BOARD_SIZE - fromRow); // e.g., "Pa2"
+    char column = 'a' + fromCol; // Convert column index to letter
+    std::string currentKey = std::string(1, currentPosition) + column + std::to_string(BOARD_SIZE - fromRow);
 
     bool isDelete = destination != ' ';
 
@@ -45,6 +45,8 @@ void movePiece(char board[BOARD_SIZE][BOARD_SIZE], int fromRow, int fromCol, int
         board[toRow][toCol] = board[fromRow][fromCol];
         board[fromRow][fromCol] = ' ';
     }
+
+    // std::cout << "Current Key: " << currentKey << std::endl;
 
     // Update global maps for normal moves
     if (isWhitePiece) {
@@ -77,9 +79,9 @@ bool checkMovePiece(char board[BOARD_SIZE][BOARD_SIZE], std::string from, std::s
               << "To: (" << toRow << ", " << toCol << ")\n";
 
     // Ensure the move is within the chessboard's bounds.
-    if (!isValidMove(board, fromRow, fromCol, toRow, toCol) && doesMoveKeepKingSafe(board, fromRow, fromCol, toRow, toCol)) {
+    if (!isValidMove(board, fromRow, fromCol, toRow, toCol) || !doesMoveKeepKingSafe(board, fromRow, fromCol, toRow, toCol)) {
         std::cout << "Invalid move!\n";
-        return false;
+        return false; 
     }
 
     char PieceToBe = '\0';
@@ -91,6 +93,7 @@ bool checkMovePiece(char board[BOARD_SIZE][BOARD_SIZE], std::string from, std::s
     switch (piece) {
         case 'p': case 'P':  // Pawn
             validMove = isPossibleMoveForPawn(board, fromRow, fromCol, toRow, toCol);
+            std::cout << "Valid Move: " <<validMove << std::endl;
             if (validMove && (toRow == 7 || toRow == 0)) {
                 std::cout << "Write the Figure to Be: ";
                 std::cin >> PieceToBe;
