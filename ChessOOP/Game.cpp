@@ -20,7 +20,7 @@ void Game::updateCastlingRights(int fromRow, int fromCol, int toRow, int toCol) 
         blackRookKingSideMoved = true;
     } else if (fromRow == BLACK_ROOK_QUEENSIDE_START.first && fromCol == BLACK_ROOK_QUEENSIDE_START.second) {
         blackRookQueenSideMoved = true;
-    }
+    } 
 }
 
 bool Game::canCastleKingside(bool isWhite) const {

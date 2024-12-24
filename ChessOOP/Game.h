@@ -36,7 +36,7 @@ private:
     const std::pair<int, int> WHITE_KING_START = {7, 4};
     const std::pair<int, int> BLACK_KING_START = {0, 4};
     const std::pair<int, int> WHITE_ROOK_KINGSIDE_START = {7, 7};
-    const std::pair<int, int> WHITE_ROOK_QUEENSIDE_START = {7, 0};
+    const std::pair<int, int> WHITE_ROOK_QUEENSIDE_START = {7, 0}; 
     const std::pair<int, int> BLACK_ROOK_KINGSIDE_START = {0, 7};
     const std::pair<int, int> BLACK_ROOK_QUEENSIDE_START = {0, 0};
 

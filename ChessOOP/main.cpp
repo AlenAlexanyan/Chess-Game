@@ -109,7 +109,7 @@ int main()
         if (chessGame.isCheck())
         {
             if (chessGame.isCheckMate())
-            {
+            { 
                 chessGame.displayBoard();
                 std::cout << "\nCHECKMATE!!!!!" << std::endl;
                 std::cout << (chessGame.getTurn() ? "Black" : "White") << " wins.\n";
